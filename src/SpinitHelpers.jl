@@ -1,5 +1,6 @@
 module SpinitHelpers
 
-# Write your package code here.
+export export1D
+include("spinit_to_ssNake.jl")
 
 end
