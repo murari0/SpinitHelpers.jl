@@ -86,6 +86,6 @@ function exportp2D(inpath; infile="data.dat", inheader="header.xml", outpath=inp
     dataReal = [[data[1:2:end,i] for i in 1:N2]];
     dataImag = [[data[2:2:end,i] for i in 1:N2]];
 
-    spinit_data_to_ssNake = Dict("dataReal" => dataReal, "dataImag" => dataImag, "hyper" => [0], "freq" => [parse(Float64,spinit_header_needed["TRANSMIT_FREQ_1"]), parse(Float64,spinit_header_needed["TRANSMIT_FREQ_2"])], "sw" => [sw, sw2], "spec" => [0.0, 0.0], "wholeEcho" => [0.0, 0.0], "ref" => [parse(Float64,spinit_header_needed["TRANSMIT_FREQ_1"]), parse(Float64,spinit_header_needed["TRANSMIT_FREQ_1"])], "history" => ["RS2D Spinit data loaded from "*pwd()], "metaData" => metaData, "dFilter" => 0.0, "xaxArray" => xaxArray);
+    spinit_data_to_ssNake = Dict("dataReal" => dataReal, "dataImag" => dataImag, "hyper" => [0], "freq" => [parse(Float64,spinit_header_needed["TRANSMIT_FREQ_1"]), parse(Float64,spinit_header_needed["TRANSMIT_FREQ_2"])], "sw" => [sw2, sw], "spec" => [0.0, 0.0], "wholeEcho" => [0.0, 0.0], "ref" => [parse(Float64,spinit_header_needed["TRANSMIT_FREQ_2"]), parse(Float64,spinit_header_needed["TRANSMIT_FREQ_1"])], "history" => ["RS2D Spinit data loaded from "*pwd()], "metaData" => metaData, "dFilter" => 0.0, "xaxArray" => xaxArray);
     JSON.json(joinpath(outpath,outfile),spinit_data_to_ssNake)
 end
