@@ -29,7 +29,9 @@ function export1D(inpath; infile="data.dat", inheader="header.xml", outpath=inpa
         spec = 1.0;
     end
     data = Vector{Float32}(undef,2*N);
-    @assert sizeof(data) == filesize(joinpath(inpath,infile)) "Inconsistent data file size"
+    if sizeof(data) != filesize(joinpath(inpath,infile))
+        throw(InvalidDataError("size of data file inconsistent with dimensions found in header ("*string(N)*" complex points)"))
+    end
     open(joinpath(inpath,infile), "r") do io
         read!(io,data)
     end
@@ -50,7 +52,9 @@ function exportp2D(inpath; infile="data.dat", inheader="header.xml", outpath=inp
     params = root(spinit_header).firstelement;
     for p in eachelement(params)
         if p.firstelement.content == "DATA_REPRESENTATION"
-            @assert nodecontent.(findall("value/value",p))[2] == "REAL" "Full (complex) 2D files not supported"
+            if nodecontent.(findall("value/value",p))[2] != "REAL"
+                throw(InvalidDataError("full (hypercomplex) 2D files not supported"))
+            end
             break
         end
     end
@@ -78,7 +82,9 @@ function exportp2D(inpath; infile="data.dat", inheader="header.xml", outpath=inp
         xaxArray = [x2D, collect(range(start=-sw/2.0,length=N,stop=sw/2.0))];
     end
     data = Array{Float32,2}(undef,2*N1,N2);
-    @assert sizeof(data) == filesize(joinpath(inpath,infile)) "Inconsistent data file size"
+    if sizeof(data) != filesize(joinpath(inpath,infile))
+        throw(InvalidDataError("size of data file inconsistent with dimensions found in header ("*string(N)*" complex points)"))
+    end
     open(joinpath(inpath,infile), "r") do io
         read!(io,data)
     end
