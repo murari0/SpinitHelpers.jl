@@ -1,7 +1,3 @@
-using JSON
-using EzXML
-using TimeZones
-
 function export1D(inpath; infile="data.dat", inheader="header.xml", outpath=inpath, outfile="data.json")
     spinit_header = readxml(joinpath(inpath,inheader));
     spinit_header_needed = Dict("TRANSMIT_FREQ_1"=>"", "SPECTRAL_WIDTH"=>"", "STATE"=>"", "Nb_point"=>"", "NUMBER_OF_AVERAGES"=>"", "SEQUENCE_NAME"=>"", "RECEIVER_GAIN"=>"", "D1"=>"", "ACQUISITION_DATE"=>"");
@@ -10,10 +6,10 @@ function export1D(inpath; infile="data.dat", inheader="header.xml", outpath=inpa
 
     for h in keys(spinit_header_needed)
         for p in eachelement(params)
-        if p.firstelement.content == h
+            if p.firstelement.content == h
                 spinit_header_needed[h] = findfirst("value/value",p).content;
                 break
-        end
+            end
         end
     end
     t = TimeZones.zdt2unix(Integer,parse(ZonedDateTime,spinit_header_needed["ACQUISITION_DATE"]));
