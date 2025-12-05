@@ -75,11 +75,11 @@ function exportp2D(inpath; infile="data.dat", inheader="header.xml", outpath=inp
         @warn "No X-axis array matching second dimension provided. Using defaults"
         xaxArray = [collect(range(start=0.0,length=N2,step=1.0)), collect(range(start=0.0,length=N1,step=1.0/sw))];
     else
-        xaxArray = [x2D, collect(range(start=-sw/2.0,length=N,stop=sw/2.0))];
+        xaxArray = [x2D, collect(range(start=0.0,length=N1,step=1.0/sw))];
     end
     data = Array{Float32,2}(undef,2*N1,N2);
     if sizeof(data) != filesize(joinpath(inpath,infile))
-        throw(InvalidDataError("size of data file inconsistent with dimensions found in header ("*string(N)*" complex points)"))
+        throw(InvalidDataError("size of data file inconsistent with dimensions found in header ("*string(N2)*"x"string(N1)*" complex points)"))
     end
     open(joinpath(inpath,infile), "r") do io
         read!(io,data)
