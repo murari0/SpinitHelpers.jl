@@ -79,7 +79,7 @@ function exportp2D(inpath; infile="data.dat", inheader="header.xml", outpath=inp
     end
     data = Array{Float32,2}(undef,2*N1,N2);
     if sizeof(data) != filesize(joinpath(inpath,infile))
-        throw(InvalidDataError("size of data file inconsistent with dimensions found in header ("*string(N2)*"x"string(N1)*" complex points)"))
+        throw(InvalidDataError("size of data file inconsistent with dimensions found in header ("*string(N2)*"x"*string(N1)*" complex points)"))
     end
     open(joinpath(inpath,infile), "r") do io
         read!(io,data)
